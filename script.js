@@ -1,30 +1,22 @@
 const dialog = document.querySelector("dialog");
 const form = document.querySelector("dialog form");
-const addNewBookButton = document.getElementById("add-new-book-button");
+const addNewBookButton = document.getElementById("new-book-button");
 const closeDialogButton = document.getElementById("close-dialog-button");
 const display = document.getElementById("display");
 const launchDialogButton = document.getElementById("launch-dialog-button");
 
-const myLibrary = [
-    {
-        title: "sample title",
-        author: "sample",
-        pages: 244,
-        read: false
-    },
-    {
-        title: "sample 2",
-        author: "sample author",
-        pages: 1000,
-        read: true
-    }
-];
+const myLibrary = [];
 
 function Book(title, author, pages, read) {
     this.title = title;
     this.author = author;
     this.pages = pages;
     this.read = read;
+}
+
+Book.prototype.toggleReadStatus = function() {
+    this.read = !this.read;
+    console.log(this.read)
 }
 
 function addBookToLibrary(title, author, pages, read) {
@@ -35,10 +27,31 @@ function addBookToLibrary(title, author, pages, read) {
 
 function displayBooks() {
     display.innerHTML = "";
-    myLibrary.forEach(book => {
-        display.innerText += `${book.title} ${book.author} ${book.pages} ${book.read}\n`;
+    myLibrary.forEach((book, index) => {
+        display.innerHTML += `<div data-index="${index}">${book.title} ${book.author} ${book.pages} ${book.read ? "read" : "unread"}<button class="remove-button">remove</button><button class="toggle-read-status"">toggle read status</button></div>\n`;
+    })
+    const removeButtons = document.querySelectorAll(".remove-button");
+    removeButtons.forEach(removeButton => {
+        removeButton.addEventListener("click", (e) => {
+            const index = e.target.parentNode.dataset.index;
+            myLibrary.splice(index, 1);
+            displayBooks();
+        })
+        const toggleReadStatusButtons = document.querySelectorAll(".toggle-read-status");
+        toggleReadStatusButtons.forEach(toggleReadStatusButton => {
+            toggleReadStatusButton.addEventListener("click", (e) => {
+                e.stopImmediatePropagation();
+                const index = e.target.parentNode.dataset.index;
+                myLibrary[index].toggleReadStatus();
+                displayBooks()
+            })
+        })
     })
 }
+
+addBookToLibrary("sample", "sample", 455, true);
+addBookToLibrary("sample2", "sample2", 1000, false);
+addBookToLibrary("sample3", "sample3", 10000, true);
 
 displayBooks();
 
