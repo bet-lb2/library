@@ -7,17 +7,31 @@ const launchDialogButton = document.getElementById("launch-dialog-button");
 
 const myLibrary = [];
 
-function Book(title, author, pages, read) {
-    this.title = title;
-    this.author = author;
-    this.pages = pages;
-    this.read = read;
+// function Book(title, author, pages, read) {
+//     this.title = title;
+//     this.author = author;
+//     this.pages = pages;
+//     this.read = read;
+// }
+
+class Book {
+
+    constructor(title, author, pages, read) {
+        this.title = title,
+        this.author = author,
+        this.pages = pages,
+        this.read = read;
+    }
+
+    toggleReadStatus() {
+        this.read = !this.read;
+    }
 }
 
-Book.prototype.toggleReadStatus = function() {
-    this.read = !this.read;
-    console.log(this.read)
-}
+// Book.prototype.toggleReadStatus = function() {
+//     this.read = !this.read;
+//     console.log(this.read)
+// }
 
 function addBookToLibrary(title, author, pages, read) {
     const book = new Book(title, author, pages, read);
