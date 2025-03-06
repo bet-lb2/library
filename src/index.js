@@ -4,7 +4,6 @@ const addBookBtn = document.getElementById("add-book-btn");
 const books = document.getElementById("books");
 const dialog = document.getElementById("dialog");
 const dialogBackDrop = document.querySelector("#dialog::backdrop");
-console.log(dialogBackDrop)
 
 class Book {
     constructor(title, author, pages, isRead) {
@@ -89,11 +88,11 @@ function getLocalStorage() {
 function createForm() {
     dialog.innerHTML = "";
     dialog.innerHTML = `
-    <form novalidate>
+    <form>
         <h3>Add new book</h3>
-        <input id="title" type="text" placeholder="Title">
-        <input id="author" type="text" placeholder="Author">
-        <input id="pages" type="number" placeholder="Pages">
+        <input id="title" type="text" placeholder="Title" required maxlength="100">
+        <input id="author" type="text" placeholder="Author" required maxlength="100">
+        <input id="pages" type="number" placeholder="Pages" required min="1" max="10000">
         <div class="is-read">
             <label for="isRead">Have you read it ?</label>
             <input id="is-read" type="checkbox">
@@ -111,11 +110,27 @@ function createForm() {
       });
     document.getElementById("submit").addEventListener("click", (e) => {
         e.preventDefault();
-        const title = document.getElementById("title").value;
-        const author = document.getElementById("author").value;
-        const pages = document.getElementById("pages").value;
-        const isRead = document.getElementById("is-read").value;
-        myLibrary.addBook(new Book(title, author, pages, isRead));
+        const title = document.getElementById("title");
+        const author = document.getElementById("author");
+        const pages = document.getElementById("pages");
+        const isRead = document.getElementById("is-read");
+        console.log(title.validity, author.validity, pages.validity)
+        if (title.validity.valueMissing) {
+            title.setCustomValidity("Please enter your book's title.");
+            title.reportValidity();
+            return;
+        }
+        if (author.validity.valueMissing) {
+            author.setCustomValidity("Please enter your book's author name.")
+            author.reportValidity();
+            return;
+        }
+        if (pages.validity.valueMissing) {
+            pages.setCustomValidity("Please select your book's pages.")
+            pages.reportValidity();
+            return;
+        }
+        myLibrary.addBook(new Book(title.value, author.value, pages.value, isRead.value));
         dialog.close();
         updateLocalStorage();
         displayBooks();
