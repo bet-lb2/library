@@ -1,3 +1,109 @@
-body {
-    background-color: #333;
+:root {
+    --header-height: 5rem;
 }
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: sans-serif;
+}
+
+a {
+    text-decoration: none;
+}
+
+ul {
+    list-style: none;
+}
+
+button, input[type=checkbox] {
+    cursor: pointer;
+}
+
+#header {
+    height: var(--header-height);
+    display: grid;
+    align-content: center;
+    padding: 1rem;
+}
+
+#content {
+    height: calc(100vh - var(--header-height));
+    background-color: #F0EEF1;
+    text-align: center;
+    padding: 2.5rem;
+}
+
+#add-book-btn {
+    font-size: 1.5rem;
+    border: none;
+    font-weight: bold;
+    margin-bottom: 1.5rem;
+}
+
+#books {
+    display: grid;
+    gap: 2rem;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+}
+
+#books .book {
+    background-color: white;
+    padding: 2rem;
+    display: grid;
+    gap: 1rem;
+    font-size: 1.15rem;
+    font-weight: bold;
+}
+
+.green {
+    background-color: lightgreen;
+}
+
+.red {
+    background-color: lightcoral;
+}
+
+#books .book button {
+    border: none;
+    padding: 0.5rem 0;
+    border-radius: 5px;
+    font-size: 1.15rem;
+}
+
+#dialog[open] {
+    margin: auto;
+    padding: 2rem;
+    border: none;
+    border-radius: 5px;
+}
+
+#dialog[open]::backdrop {
+    background-color: black;
+    opacity: 0.6;
+}
+
+#dialog[open] form {
+    display: grid;
+    gap: 1rem;
+    text-align: center;
+}
+
+#dialog[open] form input, #submit {
+    border: none;
+    background-color: #F0EEF1;
+    font-size: 1.15rem;
+    padding: 0.5rem;
+    border-radius: 5px;
+    font-weight: bold;
+}
+
+#dialog[open] form .is-read {
+    font-size: 1.15rem;
+}
+
+#dialog[open] form input[type=checkbox] {
+    transform: scale(1.25);
+}
+
